@@ -39,34 +39,40 @@ namespace STG.Controllers.Engine
             room = null;
         }
 
-        public Timetable(Group group): this()
+        public Timetable(ref Group group): this()
         {
             this.group = group;
+            this.group.setTimetable(this);
         }
 
-        public Timetable(Teacher teacher): this()
+        public Timetable(ref Teacher teacher): this()
         {
             this.teacher = teacher;
+            this.teacher.setTimetable(this);
         }
 
-        public Timetable(Room room): this()
+        public Timetable(ref Room room): this()
         {
             this.room = room;
+            this.room.setTimetable(this);
         }
 
-        public Timetable(Group group, int numberOfDays, int numberOfSlots) : this(numberOfDays, numberOfSlots)
+        public Timetable(ref Group group, int numberOfDays, int numberOfSlots) : this(numberOfDays, numberOfSlots)
         {
             this.group = group;
+            this.group.setTimetable(this);
         }
 
-        public Timetable(Teacher teacher, int numberOfDays, int numberOfSlots) : this(numberOfDays, numberOfSlots)
+        public Timetable(ref Teacher teacher, int numberOfDays, int numberOfSlots) : this(numberOfDays, numberOfSlots)
         {
             this.teacher = teacher;
+            this.teacher.setTimetable(this);
         }
 
-        public Timetable(Room room, int numberOfDays, int numberOfSlots) : this(numberOfDays, numberOfSlots)
+        public Timetable(ref Room room, int numberOfDays, int numberOfSlots) : this(numberOfDays, numberOfSlots)
         {
             this.room = room;
+            this.room.setTimetable(this);
         }
 
         public Lesson getLesson(int day, int slot)
@@ -78,11 +84,11 @@ namespace STG.Controllers.Engine
             return days[day].getSlot(slot).getLessons();
         }
 
-        public void addLesson(Lesson lesson, int day, int slot) {
+        public void addLesson(ref Lesson lesson, int day, int slot) {
             days[day].getSlot(slot).addLesson(lesson);
         }
 
-        public void removeLesson(Lesson lesson, int day, int slot)
+        public void removeLesson(ref Lesson lesson, int day, int slot)
         {
             days[day].getSlot(slot).removeLesson(lesson);
         }
