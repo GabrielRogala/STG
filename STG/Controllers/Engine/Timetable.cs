@@ -18,7 +18,7 @@ namespace STG.Controllers.Engine
         {
             days = new List<Day>();
             for (int i = 0; i < numberOfDays; ++i) {
-                days.Add(new Day("day"+i+1, numberOfSlots));
+                days.Add(new Day("day"+(i+1), numberOfSlots));
             }
             group = null;
             teacher = null;
@@ -32,44 +32,44 @@ namespace STG.Controllers.Engine
             days = new List<Day>();
             for (int i = 0; i < this.numberOfDays; ++i)
             {
-                days.Add(new Day("day" + i + 1, this.numberOfSlots));
+                days.Add(new Day("day" + (i + 1), this.numberOfSlots));
             }
             group = null;
             teacher = null;
             room = null;
         }
 
-        public Timetable(ref Group group): this()
+        public Timetable(Group group): this()
         {
             this.group = group;
             this.group.setTimetable(this);
         }
 
-        public Timetable(ref Teacher teacher): this()
+        public Timetable(Teacher teacher): this()
         {
             this.teacher = teacher;
             this.teacher.setTimetable(this);
         }
 
-        public Timetable(ref Room room): this()
+        public Timetable(Room room): this()
         {
             this.room = room;
             this.room.setTimetable(this);
         }
 
-        public Timetable(ref Group group, int numberOfDays, int numberOfSlots) : this(numberOfDays, numberOfSlots)
+        public Timetable(Group group, int numberOfDays, int numberOfSlots) : this(numberOfDays, numberOfSlots)
         {
             this.group = group;
             this.group.setTimetable(this);
         }
 
-        public Timetable(ref Teacher teacher, int numberOfDays, int numberOfSlots) : this(numberOfDays, numberOfSlots)
+        public Timetable(Teacher teacher, int numberOfDays, int numberOfSlots) : this(numberOfDays, numberOfSlots)
         {
             this.teacher = teacher;
             this.teacher.setTimetable(this);
         }
 
-        public Timetable(ref Room room, int numberOfDays, int numberOfSlots) : this(numberOfDays, numberOfSlots)
+        public Timetable(Room room, int numberOfDays, int numberOfSlots) : this(numberOfDays, numberOfSlots)
         {
             this.room = room;
             this.room.setTimetable(this);
@@ -84,11 +84,11 @@ namespace STG.Controllers.Engine
             return days[day].getSlot(slot).getLessons();
         }
 
-        public void addLesson(ref Lesson lesson, int day, int slot) {
+        public void addLesson(Lesson lesson, int day, int slot) {
             days[day].getSlot(slot).addLesson(lesson);
         }
 
-        public void removeLesson(ref Lesson lesson, int day, int slot)
+        public void removeLesson(Lesson lesson, int day, int slot)
         {
             days[day].getSlot(slot).removeLesson(lesson);
         }
@@ -102,11 +102,11 @@ namespace STG.Controllers.Engine
         {
             String tmp = "";
             if (group != null) {
-                tmp += "\n======================";
+                tmp += "\n======================" + group.getName() + "======================\n";
             } else if (teacher != null) {
-                tmp += "\n======================";
+                tmp += "\n======================" + teacher.getName() + "======================\n";
             } else if (room != null) {
-                tmp += "\n======================";
+                tmp += "\n======================" + room.getName() + "======================\n";
             } else {
                 tmp += "\n============================================\n";
             }
@@ -126,7 +126,7 @@ namespace STG.Controllers.Engine
                             tmp += " " + getLesson(d, h).ToString() + " ";
                         }
                     } else {
-                        tmp += " ------------ ";
+                        tmp += "| ------------ ";
                     }
                 }
                 tmp += "|\n";
