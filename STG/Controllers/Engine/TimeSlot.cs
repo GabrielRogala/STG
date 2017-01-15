@@ -9,5 +9,11 @@ namespace STG.Controllers.Engine
     {
         public int day;
         public int hour;
+
+        public TimeSlot(int day, int hour)
+        {
+            this.day = day;
+            this.hour = hour;
+        }
     }
 }

@@ -43,5 +43,10 @@ namespace STG.Controllers.Engine
         {
             return name + "(" + amount + ")";
         }
+
+        public override bool Equals(object obj)
+        {
+            return this.name.Equals(((Group)obj).name);
+        }
     }
 }

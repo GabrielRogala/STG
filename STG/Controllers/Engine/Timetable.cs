@@ -134,5 +134,102 @@ namespace STG.Controllers.Engine
             tmp += "============================================\n";
             return tmp;
         }
+
+        public List<TimeSlot> getFreeSlots(int size = 1) {
+            List<TimeSlot> freeSlots = new List<TimeSlot>();
+
+            for (int h = 0; h < numberOfSlots; ++h)
+            {
+                for (int d = 0; d < numberOfDays; ++d)
+                {
+
+                    bool result = true;
+
+                    for (int i = 0; i < size; ++i)
+                    {
+                        result = result && days[d].getSlot(h + i).isEmpty() && !days[d].getSlot(h + i).isLocked();
+                    }
+
+                    if (result)
+                    {
+                        freeSlots.Add(new TimeSlot(d, h));
+                    }
+                }
+            }
+
+            return freeSlots;
+        }
+
+        public int fitness()
+        {
+            int value = 0;
+            value += fitnessFreeSlots();
+
+            if (group != null)
+            {
+                value += fitnessType();
+            }
+
+            return value;
+        }
+
+        public int fitnessFreeSlots()
+        {
+            int value = 0;
+            foreach (Day d in days)
+            {
+                int lastIndex = -1;
+                for (int i = 0; i < d.getSlots().Count; i++)
+                {
+                    if (!d.getSlot(i).isEmpty() || d.getSlot(i).isLocked())
+                    {
+                        value += (int)Math.Pow((i - lastIndex - 1), 3);
+                        lastIndex = i;
+                    }
+
+                }
+            }
+
+            return value;
+        }
+
+        public int fitnessType()
+        {
+            int value = 0;
+
+            //int sizeOfSubjectType = Enum.GetNames(typeof(SubjectType)).Length;
+            //if (this.group != null)
+            //{
+            //    foreach (Day d in days)
+            //    {
+            //        int[] numberOfType = new int[sizeOfSubjectType];
+            //        for (int i = 0; i < sizeOfSubjectType; i++)
+            //        {
+            //            numberOfType[i] = 0;
+            //        }
+            //        int count = 0;
+
+            //        for (int i = 0; i < d.getSlots().Count; i++)
+            //        {
+            //            if (!d.getSlots()[i].isEmpty())
+            //            {
+            //                count++;
+            //                numberOfType[(int)d.getSlots()[i].getLesson(0).getSubject().getSubjectType()]++;
+            //            }
+            //        }
+
+            //        count = count / sizeOfSubjectType;
+            //        for (int i = 0; i < sizeOfSubjectType; i++)
+            //        {
+            //            numberOfType[i] = numberOfType[i] - count;
+            //            if (numberOfType[i] > 0)
+            //            {
+            //                value += (int)(Math.Pow(numberOfType[i], 2));
+            //            }
+            //        }
+            //    }
+            //}
+            return value;
+        }
     }
 }

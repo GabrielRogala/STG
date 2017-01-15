@@ -80,5 +80,15 @@ namespace STG.Controllers.Engine
             }
             return group.ToString() + "/" + teacher.ToString() + "/" + subject.ToString() + "(" + amount + "/" + size + ")" + tmp;
         }
+
+        internal bool isDifferent(Lesson lesson)
+        {
+            return !this.subject.Equals(lesson.getSubject());
+        }
+
+        public Boolean Equals(Lesson lesson)
+        {
+            return this.subject.Equals(lesson.subject) && this.group.Equals(lesson.group) && this.teacher.Equals(lesson.teacher) && this.amount.Equals(lesson.amount) && this.size.Equals(lesson.size);
+        }
     }
 }

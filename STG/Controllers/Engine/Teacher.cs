@@ -39,5 +39,10 @@ namespace STG.Controllers.Engine
         {
             return name;
         }
+
+        public override bool Equals(object obj)
+        {
+            return this.name.Equals(((Teacher)obj).name);
+        }
     }
 }

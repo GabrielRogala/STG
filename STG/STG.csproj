@@ -203,6 +203,7 @@
     <Compile Include="Controllers\Engine\SchoolTimetable.cs" />
     <Compile Include="Controllers\Engine\Slot.cs" />
     <Compile Include="Controllers\Engine\Subject.cs" />
+    <Compile Include="Controllers\Engine\SubjectType.cs" />
     <Compile Include="Controllers\Engine\Teacher.cs" />
     <Compile Include="Controllers\Engine\TimeSlot.cs" />
     <Compile Include="Controllers\Engine\Timetable.cs" />

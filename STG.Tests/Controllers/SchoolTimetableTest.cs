@@ -16,6 +16,7 @@ namespace STG.Tests.Controllers
             List<Group> groups = new List<Group>();
             List<Subject> subjects = new List<Subject>();
             List<Room> rooms = new List<Room>();
+            List<String> subjectTypes = new List<String>();
 
             for (int j = 0; j < 7; j++)
             {
@@ -34,19 +35,26 @@ namespace STG.Tests.Controllers
             rooms.Add(new Room("nr" + nr++, 40, "B"));
             rooms.Add(new Room("nr" + nr++, 40, "C"));
 
+            subjectTypes.Add("HUM");
+            subjectTypes.Add("SCI");
+            subjectTypes.Add("JEZ");
+            subjectTypes.Add("SPE");
+            subjectTypes.Add("SPO");
+            subjectTypes.Add("INN");
+
             int i = 0;
-            subjects.Add(new Subject("pol", "HUM", "A"));
-            subjects.Add(new Subject("ang", "JEZ", "A"));
-            subjects.Add(new Subject("mat", "SCI", "A"));
-            subjects.Add(new Subject("his", "HUM", "A"));
-            subjects.Add(new Subject("wos", "HUM", "A"));
-            subjects.Add(new Subject("fiz", "SCI", "A"));
-            subjects.Add(new Subject("bio", "SCI", "A"));
-            subjects.Add(new Subject("geo", "SCI", "A"));
-            subjects.Add(new Subject("w-f", "SPO", "C"));
-            subjects.Add(new Subject("rel", "INN", "A"));
-            subjects.Add(new Subject("inf", "SPE", "B"));
-            subjects.Add(new Subject("PRO", "SPE", "B"));
+            subjects.Add(new Subject("pol", subjectTypes[0], "A"));
+            subjects.Add(new Subject("ang", subjectTypes[2], "A"));
+            subjects.Add(new Subject("mat", subjectTypes[1], "A"));
+            subjects.Add(new Subject("his", subjectTypes[0], "A"));
+            subjects.Add(new Subject("wos", subjectTypes[0], "A"));
+            subjects.Add(new Subject("fiz", subjectTypes[1], "A"));
+            subjects.Add(new Subject("bio", subjectTypes[1], "A"));
+            subjects.Add(new Subject("geo", subjectTypes[1], "A"));
+            subjects.Add(new Subject("w-f", subjectTypes[4], "C"));
+            subjects.Add(new Subject("rel", subjectTypes[5], "A"));
+            subjects.Add(new Subject("inf", subjectTypes[3], "B"));
+            subjects.Add(new Subject("PRO", subjectTypes[3], "B"));
 
             foreach (Group g in groups)
             {
@@ -112,7 +120,7 @@ namespace STG.Tests.Controllers
 
             }
 
-            SchoolTimetable stt = new SchoolTimetable(teachers, groups, rooms,lessons,5,8);
+            SchoolTimetable stt = new SchoolTimetable(teachers, groups, rooms,lessons,subjectTypes,5,8);
             stt.generateSchoolTimetable();
             stt.print();
         }

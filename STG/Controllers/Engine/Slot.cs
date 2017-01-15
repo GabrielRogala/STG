@@ -46,5 +46,10 @@ namespace STG.Controllers.Engine
         public bool isLocked() {
             return locked;
         }
+
+        public bool isEmpty()
+        {
+            return lessons.Count == 0;
+        }
     }
 }
