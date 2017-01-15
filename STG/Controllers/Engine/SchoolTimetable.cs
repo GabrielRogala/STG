@@ -111,7 +111,9 @@ namespace STG.Controllers.Engine
             foreach (Lesson l in choosenLesson) {
                 Console.WriteLine(l.ToString());
             }
-            //TO DO
+            /////////////////////////////////////////
+
+
         }
 
         private List<Lesson> findDifferentSubjectTheSameGroup(Lesson lesson, List<Lesson> lessons)

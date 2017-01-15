@@ -197,6 +197,8 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Engine\Day.cs" />
+    <Compile Include="Controllers\Engine\FreeSlotsInRoomToLesson.cs" />
+    <Compile Include="Controllers\Engine\FreeSlotsToLesson.cs" />
     <Compile Include="Controllers\Engine\Group.cs" />
     <Compile Include="Controllers\Engine\Lesson.cs" />
     <Compile Include="Controllers\Engine\Room.cs" />
