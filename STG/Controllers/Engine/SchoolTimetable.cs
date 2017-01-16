@@ -18,6 +18,9 @@ namespace STG.Controllers.Engine
         private List<Timetable> roomsTimetables;
         private SubjectType subjectTypes;
         private const int NUMBER_OF_LESSONS_TO_POSITIONING = 5;
+        private const int BOTTOM_BORDER_OF_BEST_SLOTS = 1;
+        private const int TOP_BORDER_OF_BEST_SLOTS = 7;
+        private static Random rand = new Random();
 
         public SchoolTimetable() {
             teachers = new List<Teacher>();
@@ -108,12 +111,196 @@ namespace STG.Controllers.Engine
         private void findAndSetBestPositionToLessons(List<Lesson> choosenLesson)
         {
             Console.WriteLine("=================================");
-            foreach (Lesson l in choosenLesson) {
+            foreach (Lesson l in choosenLesson)
+            {
                 Console.WriteLine(l.ToString());
             }
-            /////////////////////////////////////////
 
+            List<FreeSlotsToLesson> freeSlotsToLesson = new List<FreeSlotsToLesson>();
+            Timetable currentTimeTable = new Timetable();
+            List<TimeSlot> freeSlots = new List<TimeSlot>();
+            List<TimeSlot> groupSlots = new List<TimeSlot>();
+            List<TimeSlot> teacherSlots = new List<TimeSlot>();
+            List<TimeSlot> theSameSlots = new List<TimeSlot>();
+            Group group;
+            Teacher teacher;
 
+            foreach (Lesson l in choosenLesson)
+            {
+                group = l.getGroup();
+                teacher = l.getTeacher();
+
+                // przygotowanie listy wolnych slotów dla odpowiednich sal
+                List<FreeSlotsInRoomToLesson> freeSlotsInRoomToLesson = new List<FreeSlotsInRoomToLesson>();
+                foreach (Timetable tt in roomsTimetables)
+                {
+                    if (tt.getRoom().getRoomType().Equals(l.getSubject().getRoomType()) && tt.getRoom().getAmount() >= group.getAmount())
+                    {
+                        freeSlotsInRoomToLesson.Add(new FreeSlotsInRoomToLesson(tt.getFreeSlots(l.getSize()), tt.getRoom()));
+                    }
+                }
+
+                groupSlots = group.getTimetable().getFreeSlots(l.getSize());
+                teacherSlots = teacher.getTimetable().getFreeSlots(l.getSize());
+                theSameSlots = getTheSameSlots(groupSlots, teacherSlots);
+
+                freeSlotsToLesson.Add(new FreeSlotsToLesson(theSameSlots, l, freeSlotsInRoomToLesson));
+
+                // przygotowanie planu lekcji z wszystkimi wolnymi slotami dla wybranych lekcji
+                foreach (TimeSlot ts in theSameSlots)
+                {
+                    currentTimeTable.addLesson(l, ts.day, ts.hour);
+                    if (!freeSlots.Contains(ts))
+                    {
+                        freeSlots.Add(ts);
+                    }
+                }
+
+            }
+
+            // sortowanie lekcji pod wzgledem wolnych slotów
+            freeSlotsToLesson.Sort(new Comparison<FreeSlotsToLesson>(BFSComparator));
+
+            foreach (FreeSlotsToLesson fstl in freeSlotsToLesson)
+            {
+                if (fstl.slots.Count > 0) {
+                    List<int> indexOfSlotsWithMaxCount = new List<int>();
+                    int max = 0;
+                    // znajdywanie maksymalnej wartości
+                    foreach (TimeSlot ts in fstl.slots)
+                    {
+                        int currentTiteTableSlotCount = currentTimeTable.getLessons(ts.day,ts.hour).Count;
+                        if (max < currentTiteTableSlotCount)
+                        {
+                            max = currentTiteTableSlotCount;
+                        }
+                    }
+                    // znajdywanie wszystki maksymalnych
+                    foreach (TimeSlot ts in fstl.slots)
+                    {
+                        int currentTiteTableSlotCount = currentTimeTable.getLessons(ts.day, ts.hour).Count;
+                        if (max == currentTiteTableSlotCount)
+                        {
+                            indexOfSlotsWithMaxCount.Add(fstl.slots.IndexOf(ts));
+                        }
+                    }
+
+                    ////////////////////////
+                    Room bestRoom = null;
+                    TimeSlot bestSlot = getBestTimeSlot(fstl.slots, fstl.roomSlots, ref bestRoom);
+                    // znajdywanie najlepszego slotu
+                    for (int i = 0; i < fstl.lesson.getSize(); ++i)
+                    {
+                        if (fstl.lesson.getGroup().getTimetable().getLessons(bestSlot.day,bestSlot.hour + i).Count == 0) // czy oby na pewno jest wolny slot
+                        {
+                            fstl.lesson.getSlots().Add(new TimeSlot(bestSlot.day, bestSlot.hour + i));
+                            fstl.lesson.setRoom(bestRoom);
+                            fstl.lesson.setLessonsToTimetable(bestSlot.day, bestSlot.hour + i);
+                        }
+                        else
+                        {
+                            Console.WriteLine("ERROR!!!!!!!!!!!!!!!!"); ////////////////////////wystąpił???!
+                        }
+                    }
+
+                    // usuwanie wolnych slotów z listy ustawionych lekcji
+                    foreach (FreeSlotsToLesson tmp in freeSlotsToLesson)
+                    {
+                        for (int i = 0; i < fstl.lesson.getSize(); ++i)
+                        {
+                            TimeSlot tmpSlot = new TimeSlot(bestSlot.day, bestSlot.hour + i);
+
+                            if (tmp.slots.Contains(tmpSlot)) {
+                                tmp.slots.Remove(tmpSlot);
+                            }
+                        }
+                    }
+
+                } else {
+                    Console.WriteLine("NO FREE SLOT"+fstl.lesson.ToString());
+                }
+            }
+
+        }
+
+        public List<TimeSlot> getTheSameSlots(List<TimeSlot> freeSlotsGroup, List<TimeSlot> freeSlotsTeacher)
+        {
+            List<TimeSlot> freeSlot = new List<TimeSlot>();
+
+            int indexTeacher = 0;
+
+            for (int indexGroup = 0; indexGroup < freeSlotsGroup.Count() && indexTeacher < freeSlotsTeacher.Count();)
+            {
+                if (freeSlotsGroup[indexGroup].Equals(freeSlotsTeacher[indexTeacher]))
+                {
+                    freeSlot.Add(new TimeSlot(freeSlotsGroup[indexGroup].day, freeSlotsGroup[indexGroup].hour));
+                    indexTeacher++;
+                    indexGroup++;
+                }
+                else
+                {
+                    if (freeSlotsGroup[indexGroup].day > freeSlotsTeacher[indexTeacher].day)
+                    {
+                        indexTeacher++;
+                    }
+                    else if (freeSlotsGroup[indexGroup].day < freeSlotsTeacher[indexTeacher].day)
+                    {
+                        indexGroup++;
+                    }
+                    else
+                    {
+                        if (freeSlotsGroup[indexGroup].hour > freeSlotsTeacher[indexTeacher].hour)
+                        {
+                            indexTeacher++;
+                        }
+                        else
+                        {
+                            indexGroup++;
+                        }
+                    }
+                }
+            }
+
+            return freeSlot;
+        }
+
+        private TimeSlot getBestTimeSlot(List<TimeSlot> slots, List<FreeSlotsInRoomToLesson> roomSlots, ref Room bestRoom)
+        {
+            List<TimeSlot> bestTimeSlots = new List<TimeSlot>();//lista najlepszych slotów
+            List<TimeSlot> worstTimeSlots = new List<TimeSlot>();//lista najgorszych slotów
+            //podział slotów na 2 kategorie
+            foreach (TimeSlot ts in slots)
+            {
+                if (ts.hour > BOTTOM_BORDER_OF_BEST_SLOTS && ts.hour < TOP_BORDER_OF_BEST_SLOTS) {
+                    bestTimeSlots.Add(ts);
+                } else {
+                    worstTimeSlots.Add(ts);
+                }
+            }
+            TimeSlot slot = null;
+            //zwraca losowy slot z listy najlepszych o ile taki istnieje
+            if (bestTimeSlots.Count > 0)
+            {
+                slot = bestTimeSlots[rand.Next(0, bestTimeSlots.Count - 1)];
+            }
+            else
+            {
+                slot = worstTimeSlots[rand.Next(0, worstTimeSlots.Count - 1)];
+            }
+
+            List<Room> freeRooms = new List<Room>();
+            foreach (FreeSlotsInRoomToLesson ro in roomSlots)
+            {
+                if (ro.slots.Contains(slot))
+                {
+                    freeRooms.Add(ro.room);
+                }
+            }
+            ///////////////////////////////
+            bestRoom = freeRooms[0]; // wybranie najlepszej sali
+            ///////////////////////////////
+
+            return slot;
         }
 
         private List<Lesson> findDifferentSubjectTheSameGroup(Lesson lesson, List<Lesson> lessons)
@@ -207,6 +394,22 @@ namespace STG.Controllers.Engine
             else
             {
                 return typeLessonComparator(l1, l2);
+            }
+        }
+
+        public int BFSComparator(FreeSlotsToLesson o1, FreeSlotsToLesson o2)
+        {
+            if (o1.lesson.getSize() > o2.lesson.getSize())
+            {
+                return -1;
+            }
+            else if (o1.lesson.getSize() < o2.lesson.getSize())
+            {
+                return 1;
+            }
+            else
+            {
+                return o1.size.CompareTo(o2.size);
             }
         }
 

@@ -48,6 +48,10 @@ namespace STG.Controllers.Engine
             return room;
         }
 
+        public void setRoom(Room room) {
+            this.room = room;
+        }
+
         public Subject getSubject() {
             return subject;
         }
@@ -89,6 +93,13 @@ namespace STG.Controllers.Engine
         public Boolean Equals(Lesson lesson)
         {
             return this.subject.Equals(lesson.subject) && this.group.Equals(lesson.group) && this.teacher.Equals(lesson.teacher) && this.amount.Equals(lesson.amount) && this.size.Equals(lesson.size);
+        }
+
+        public void setLessonsToTimetable(int day, int hour)
+        {
+            this.getGroup().getTimetable().addLesson(this, day,hour);
+            this.getTeacher().getTimetable().addLesson(this, day, hour);
+            this.getRoom().getTimetable().addLesson(this, day, hour );
         }
     }
 }

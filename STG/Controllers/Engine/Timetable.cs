@@ -75,6 +75,20 @@ namespace STG.Controllers.Engine
             this.room.setTimetable(this);
         }
 
+        public Group getGroup() {
+            return group;
+        }
+
+        public Teacher getTeacher()
+        {
+            return teacher;
+        }
+
+        public Room getRoom()
+        {
+            return room;
+        }
+
         public Lesson getLesson(int day, int slot)
         {
             return days[day].getSlot(slot).getLesson(0);
@@ -113,7 +127,7 @@ namespace STG.Controllers.Engine
             tmp += "\t";
             for (int d = 0; d < numberOfDays; ++d)
             {
-                tmp += "|______"+days[d].getName()+"______";
+                tmp += "|________________" + days[d].getName()+ "_________________";
             }
             tmp += "|\n";
             for (int h = 0; h < numberOfSlots; ++h)
@@ -126,19 +140,19 @@ namespace STG.Controllers.Engine
                             tmp += " " + getLesson(d, h).ToString() + " ";
                         }
                     } else {
-                        tmp += "| ------------ ";
+                        tmp += "| ----------------------------------- ";
                     }
                 }
                 tmp += "|\n";
             }
             tmp += "============================================\n";
-            return tmp;
+            return tmp.Replace("\n",Environment.NewLine); ;
         }
 
         public List<TimeSlot> getFreeSlots(int size = 1) {
             List<TimeSlot> freeSlots = new List<TimeSlot>();
 
-            for (int h = 0; h < numberOfSlots; ++h)
+            for (int h = 0; h < numberOfSlots - (size - 1); ++h)
             {
                 for (int d = 0; d < numberOfDays; ++d)
                 {

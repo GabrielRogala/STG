@@ -15,5 +15,10 @@ namespace STG.Controllers.Engine
             this.day = day;
             this.hour = hour;
         }
+
+        public override bool Equals(object obj)
+        {
+            return (this.day == ((TimeSlot)obj).day) && (this.hour == ((TimeSlot)obj).hour);
+        }
     }
 }
