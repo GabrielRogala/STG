@@ -245,5 +245,23 @@ namespace STG.Controllers.Engine
             //}
             return value;
         }
+
+        public List<TimeSlot> getSlotsWithLesson()
+        {
+            List<TimeSlot> slots = new List<TimeSlot>();
+
+            for (int h = 0; h < numberOfSlots; ++h)
+            {
+                for (int d = 0; d < numberOfDays; ++d)
+                {
+                    if (!days[d].getSlot(h).isEmpty() && !days[d].getSlot(h).isLocked())
+                    {
+                        slots.Add(new TimeSlot(d, h));
+                    }
+                }
+            }
+
+            return slots;
+        }
     }
 }

@@ -49,6 +49,10 @@ namespace STG.Controllers.Engine
             return tmp;
         }
 
+        public List<TimeSlot> getSlots() {
+            return slots;
+        }
+
         public static List<TimeSlot> getTheSameSlots(List<TimeSlot> freeSlotsGroup, List<TimeSlot> freeSlotsTeacher)
         {
             List<TimeSlot> freeSlot = new List<TimeSlot>();
