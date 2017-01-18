@@ -20,5 +20,10 @@ namespace STG.Controllers.Engine
         {
             return (this.day == ((TimeSlot)obj).day) && (this.hour == ((TimeSlot)obj).hour);
         }
+
+        public override string ToString()
+        {
+            return "["+day + "," + hour +"]" ;
+        }
     }
 }

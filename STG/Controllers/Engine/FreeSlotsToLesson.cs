@@ -28,7 +28,11 @@ namespace STG.Controllers.Engine
 
         public override string ToString()
         {
-            return lesson.ToString() + " : " + size;
+            String tmp = lesson.ToString() + " : " + size;
+            foreach (FreeSlotsInRoomToLesson fr in roomSlots) {
+                tmp += "(" + fr.ToString() + "),";
+            }
+            return tmp;
         }
 
         public List<TimeSlot> getSlotsFromSlotsLists(List<FreeSlotsInRoomToLesson> roomSlots)
@@ -53,43 +57,49 @@ namespace STG.Controllers.Engine
             return slots;
         }
 
-        public static List<TimeSlot> getTheSameSlots(List<TimeSlot> freeSlotsGroup, List<TimeSlot> freeSlotsTeacher)
+        public static List<TimeSlot> getTheSameSlots(List<TimeSlot> freeSlots1, List<TimeSlot> freeSlots2)
         {
             List<TimeSlot> freeSlot = new List<TimeSlot>();
 
-            int indexTeacher = 0;
-
-            for (int indexGroup = 0; indexGroup < freeSlotsGroup.Count() && indexTeacher < freeSlotsTeacher.Count();)
-            {
-                if (freeSlotsGroup[indexGroup].Equals(freeSlotsTeacher[indexTeacher]))
-                {
-                    freeSlot.Add(new TimeSlot(freeSlotsGroup[indexGroup].day, freeSlotsGroup[indexGroup].hour));
-                    indexTeacher++;
-                    indexGroup++;
-                }
-                else
-                {
-                    if (freeSlotsGroup[indexGroup].day > freeSlotsTeacher[indexTeacher].day)
-                    {
-                        indexTeacher++;
-                    }
-                    else if (freeSlotsGroup[indexGroup].day < freeSlotsTeacher[indexTeacher].day)
-                    {
-                        indexGroup++;
-                    }
-                    else
-                    {
-                        if (freeSlotsGroup[indexGroup].hour > freeSlotsTeacher[indexTeacher].hour)
-                        {
-                            indexTeacher++;
-                        }
-                        else
-                        {
-                            indexGroup++;
-                        }
-                    }
+            foreach (TimeSlot ts in freeSlots1) {
+                if (freeSlots2.Contains(ts)) {
+                    freeSlot.Add( new TimeSlot(ts.day, ts.hour));
                 }
             }
+
+            //int indexTeacher = 0;
+            //
+            //for (int indexGroup = 0; indexGroup < freeSlotsGroup.Count() && indexTeacher < freeSlotsTeacher.Count();)
+            //{
+            //    if (freeSlotsGroup[indexGroup].Equals(freeSlotsTeacher[indexTeacher]))
+            //    {
+            //        freeSlot.Add(new TimeSlot(freeSlotsGroup[indexGroup].day, freeSlotsGroup[indexGroup].hour));
+            //        indexTeacher++;
+            //        indexGroup++;
+            //    }
+            //    else
+            //    {
+            //        if (freeSlotsGroup[indexGroup].day > freeSlotsTeacher[indexTeacher].day)
+            //        {
+            //            indexTeacher++;
+            //        }
+            //        else if (freeSlotsGroup[indexGroup].day < freeSlotsTeacher[indexTeacher].day)
+            //        {
+            //            indexGroup++;
+            //        }
+            //        else
+            //        {
+            //            if (freeSlotsGroup[indexGroup].hour > freeSlotsTeacher[indexTeacher].hour)
+            //            {
+            //                indexTeacher++;
+            //            }
+            //            else
+            //            {
+            //                indexGroup++;
+            //            }
+            //        }
+            //    }
+            //}
 
             return freeSlot;
         }

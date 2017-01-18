@@ -12,7 +12,7 @@ namespace STG.Controllers.Engine
         private Teacher teacher;
         private Room room;
         private int numberOfDays = 5;
-        private int numberOfSlots = 8;
+        private int numberOfSlots = 9;
 
         public Timetable()
         {
@@ -246,7 +246,7 @@ namespace STG.Controllers.Engine
             return value;
         }
 
-        public List<TimeSlot> getSlotsWithLesson()
+        public List<TimeSlot> getSlotsWithLesson(int size = 1)
         {
             List<TimeSlot> slots = new List<TimeSlot>();
 
@@ -254,7 +254,7 @@ namespace STG.Controllers.Engine
             {
                 for (int d = 0; d < numberOfDays; ++d)
                 {
-                    if (!days[d].getSlot(h).isEmpty() && !days[d].getSlot(h).isLocked())
+                    if (!days[d].getSlot(h).isEmpty() && !days[d].getSlot(h).isLocked() && days[d].getSlot(h).getLesson(0).getSize() == 1)
                     {
                         slots.Add(new TimeSlot(d, h));
                     }
