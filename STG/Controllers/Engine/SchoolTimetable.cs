@@ -245,9 +245,12 @@ namespace STG.Controllers.Engine
             /////3
             FreeSlotsToLesson freeSlotsToLesson = new FreeSlotsToLesson(groupFreeSlots, lesson, freeSlotsInRoomToLesson);
             /////3
+
+            /////9
             bool result = false;
             if (freeSlotsToLesson.slots.Count == 0) {
-                TimeSlot tmpSlot = freeSlotsToLesson.slots[rand.Next()];
+                Console.WriteLine("ERROR LVL 1");
+                TimeSlot tmpSlot = freeSlotsToLesson.slots[rand.Next(freeSlotsToLesson.slots.Count -1)];
                 Lesson tmpLesson = groupTT.getLesson(tmpSlot.day, tmpSlot.hour);
                 removeLessonsAndFindNewPosition(tmpLesson);
 
@@ -257,6 +260,8 @@ namespace STG.Controllers.Engine
 
                 freeSlotsToLesson.slots.Add(new TimeSlot(tmpSlot.day, tmpSlot.hour));
             }
+            /////9
+
             /////4
             Timetable teacherTT = lesson.getGroup().getTimetable();
             List<TimeSlot> teacherSlotsWithLesson = teacherTT.getSlotsWithLesson(1);
@@ -265,6 +270,15 @@ namespace STG.Controllers.Engine
             /////5
             List<TimeSlot> slotsToChange = getTheSameSlots(teacherSlotsWithLesson, freeSlotsToLesson.getSlots());
             /////5
+
+            /////11
+            if (slotsToChange.Count == 0) {
+                Console.WriteLine("ERROR LVL 2");
+                return false;
+
+                //slotsToChange = getTheSameSlots(teacherSlotsWithLesson, freeSlotsToLesson.getSlots());
+            }
+            /////11
 
             /////6
             List<Lesson> choosenLesson = new List<Lesson>();
@@ -308,6 +322,27 @@ namespace STG.Controllers.Engine
             fstl.Sort(new Comparison<FreeSlotsToLesson>(BFSComparator));
             /////7
 
+            /////10
+            if (fstl.Count == 0)
+            {
+                Console.WriteLine("ERROR LVL 3");
+                return false;
+                //losowanie lekcji z 6:
+                //int index = rand.Next(choosenLesson.Count - 1);
+                //Lesson tmpLesson = choosenLesson[index];
+                //TimeSlot tmpSlot = slotsToChange[index];
+
+                //removeLessonsAndFindNewPosition(tmpLesson);
+
+                //tmpLesson.getGroup().getTimetable().removeLesson(tmpLesson, tmpSlot.day, tmpSlot.hour);
+                //tmpLesson.getTeacher().getTimetable().removeLesson(tmpLesson, tmpSlot.day, tmpSlot.hour);
+                //tmpLesson.getRoom().getTimetable().removeLesson(tmpLesson, tmpSlot.day, tmpSlot.hour);
+
+                //freeSlotsToLesson.slots.Add(new TimeSlot(tmpSlot.day, tmpSlot.hour));
+
+            }
+            /////10
+
             /////8
 
             foreach (TimeSlot ts in slotsToChange)
@@ -321,11 +356,6 @@ namespace STG.Controllers.Engine
             FreeSlotsToLesson tmpFstl = null;
             Lesson lessonToMove = null;
 
-            if (fstl.Count == 0) {
-                Console.WriteLine("ERROR LVL 3");
-                return false;
-            }
-
             tmpFstl = fstl[fstl.Count - 1];
             lessonToMove = tmpFstl.lesson;
 
@@ -336,7 +366,8 @@ namespace STG.Controllers.Engine
                 tmpFstl.lesson.setLessonsToTimetable(bestSlot.day, bestSlot.hour);
             } else {
                 //remove
-                Console.WriteLine("ERROR lvl1");
+                Console.WriteLine("ERROR LVL 4");
+                return false;
             }
 
             lessonToMove = groupTT.getLessons(bestSlot.day, bestSlot.hour)[0];
@@ -729,5 +760,8 @@ namespace STG.Controllers.Engine
             }
         }
 
+        public int fitness() {
+            return 0;
+        }
     }
 }

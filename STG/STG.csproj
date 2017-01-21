@@ -201,6 +201,7 @@
     <Compile Include="Controllers\Engine\FreeSlotsToLesson.cs" />
     <Compile Include="Controllers\Engine\Group.cs" />
     <Compile Include="Controllers\Engine\Lesson.cs" />
+    <Compile Include="Controllers\Engine\Population.cs" />
     <Compile Include="Controllers\Engine\Room.cs" />
     <Compile Include="Controllers\Engine\SchoolTimetable.cs" />
     <Compile Include="Controllers\Engine\Slot.cs" />
