@@ -42,11 +42,29 @@ namespace STG.Controllers.Engine
             return tmp;
         }
 
-        public List<TimeSlot> getSlotsFromSlotsLists(List<FreeSlotsInRoomToLesson> roomSlots)
+        public List<TimeSlot> getSlotsFromRoomLists()
         {
             List<TimeSlot> tmp = new List<TimeSlot>();
 
             foreach (FreeSlotsInRoomToLesson fs in roomSlots)
+            {
+                foreach (TimeSlot ts in fs.slots)
+                {
+                    if (!tmp.Contains(ts))
+                    {
+                        tmp.Add(ts);
+                    }
+                }
+            }
+
+            return tmp;
+        }
+
+        public List<TimeSlot> getSlotsFromSlotsLists(List<FreeSlotsInRoomToLesson> slots)
+        {
+            List<TimeSlot> tmp = new List<TimeSlot>();
+
+            foreach (FreeSlotsInRoomToLesson fs in slots)
             {
                 foreach (TimeSlot ts in fs.slots)
                 {

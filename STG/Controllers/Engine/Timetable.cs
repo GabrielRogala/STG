@@ -112,6 +112,15 @@ namespace STG.Controllers.Engine
             days[day].getSlot(slot).remoweAllLessons();
         }
 
+        public void lockSlot(int day, int slot) {
+            days[day].getSlot(slot).lockSlot();
+        }
+
+        public void unlockSlot(int day, int slot)
+        {
+            days[day].getSlot(slot).unlockSlot();
+        }
+
         public override string ToString()
         {
             String tmp = "";

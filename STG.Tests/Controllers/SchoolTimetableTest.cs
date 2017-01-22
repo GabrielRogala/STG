@@ -49,7 +49,7 @@ namespace STG.Tests.Controllers
             subjects.Add(new Subject("his", subjectTypes[0], "A"));
             subjects.Add(new Subject("wos", subjectTypes[0], "A"));
             subjects.Add(new Subject("fiz", subjectTypes[1], "A"));
-            subjects.Add(new Subject("bio", subjectTypes[1], "A"));
+            //subjects.Add(new Subject("bio", subjectTypes[1], "A"));
             subjects.Add(new Subject("geo", subjectTypes[1], "A"));
             subjects.Add(new Subject("w-f", subjectTypes[4], "C"));
             subjects.Add(new Subject("rel", subjectTypes[5], "A"));
@@ -69,52 +69,52 @@ namespace STG.Tests.Controllers
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount, 2));
                 //----------ang----------
-                tI = 1; sI = 1; amount = 4;
+                tI = 1; sI++ ; amount = 4;
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 //----------mat----------
-                tI = 2; sI = 2; amount = 5;
+                tI = 2; sI++; amount = 5;
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 //----------his----------
-                tI = 3; sI = 3; amount = 1;
+                tI = 3; sI++; amount = 1;
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 //----------wos----------
-                tI = 3; sI = 4; amount = 2;
+                tI = 3; sI++; amount = 2;
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 //----------fiz----------
-                tI = 5; sI = 5; amount = 2;
+                tI = 5; sI++; amount = 2;
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 //----------bio----------
-                tI = 3; sI = 6; amount = 1;
-                lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
+                //tI = 3; sI++; amount = 1;
+                //lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 //----------geo----------
-                tI = 3; sI = 7; amount = 2;
+                tI = 3; sI++; amount = 2;
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 //----------w-f----------
-                tI = 4; sI = 8; amount = 3;
+                tI = 4; sI++; amount = 3;
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 //----------rel----------
-                tI = 5; sI = 9; amount = 2;
+                tI = 5; sI++; amount = 2;
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 //lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 //----------inf----------
-                tI = 4; sI = 10; amount = 2;
+                tI = 4; sI++; amount = 2;
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 //----------pro----------
-                tI = 6; sI = 11; amount = 5;
+                tI = 6; sI++; amount = 5;
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount, 2));
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount, 3));
 
