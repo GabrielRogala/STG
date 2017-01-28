@@ -123,6 +123,7 @@ namespace STG.Tests.Controllers
             SchoolTimetable stt = new SchoolTimetable(teachers, groups, rooms,lessons,subjectTypes,5,9);
             stt.generateSchoolTimetable();
             stt.print();
+            Console.WriteLine(stt.isCorrect());
         }
     }
 }

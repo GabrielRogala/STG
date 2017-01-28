@@ -272,5 +272,26 @@ namespace STG.Controllers.Engine
 
             return slots;
         }
+
+        public List<Lesson> getAllLessonsWithTimetable()
+        {
+            List<Lesson> tmpLessons = new List<Lesson>();
+
+            for (int h = 0; h < numberOfSlots; ++h)
+            {
+                for (int d = 0; d < numberOfDays; ++d)
+                {
+                    if (!days[d].getSlot(h).isEmpty())
+                    {
+                        //tylko jedna lekcja w slocie
+                        tmpLessons.Add(days[d].getSlot(h).getLesson(0));
+                        //wszystkie lekcje w slocie
+                        //tmpLessons.AddRange(days[d].getSlot(h).getLessons());
+                    }
+                }
+            }
+
+            return tmpLessons;
+        }
     }
 }

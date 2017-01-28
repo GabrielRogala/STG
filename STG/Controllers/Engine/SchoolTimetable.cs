@@ -51,6 +51,38 @@ namespace STG.Controllers.Engine
             this.numberOfSlots = numberOfSlots;
         }
 
+        public SchoolTimetable(SchoolTimetable s) : this(s.getTeachers(), s.getGroups(), s.getRooms(), s.getLessons(), SubjectType.getInstance().getTypes(), s.getNumberOfDays(), s.getNumberOfSlots())
+        {
+              // wygenerowanie takiego samego planu jak w s               
+        }
+
+        public List<Teacher> getTeachers() {
+            return teachers;
+        }
+
+        public List<Group> getGroups()
+        {
+            return groups;
+        }
+
+        public List<Room> getRooms()
+        {
+            return rooms;
+        }
+
+        public List<Lesson> getLessons()
+        {
+            return lessons;
+        }
+
+        public int getNumberOfDays() {
+            return numberOfDays;
+        }
+
+        public int getNumberOfSlots() {
+            return numberOfSlots;
+        }
+
         private void generateTeachersTimetables(List<Teacher> teachers) {
             foreach (Teacher t in teachers) {
                 teachersTimetables.Add(new Timetable(t, numberOfDays,numberOfSlots));
@@ -218,10 +250,21 @@ namespace STG.Controllers.Engine
                     }
 
                 } else {
-                    removeLessonsAndFindNewPosition2(fstl.lesson, ref allLesson);
+                    removeLessonsAndFindNewPosition3(fstl.lesson, ref allLesson);
                 }
             }
 
+        }
+
+        public Boolean removeLessonsAndFindNewPosition3(Lesson lesson, ref List<Lesson> allLesson)
+        {
+            Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>removeLessonsAndFindNewPosition");
+            Console.WriteLine("start "+lesson.ToString());
+
+            
+
+            Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<removeLessonsAndFindNewPosition");
+            return true;
         }
 
         public Boolean removeLessonsAndFindNewPosition(Lesson lesson)
@@ -695,6 +738,42 @@ namespace STG.Controllers.Engine
 
         public int fitness() {
             return 0;
+        }
+
+        public List<Lesson> getLessonsForGroup(Group gr) {
+            List<Lesson> tmpLessons = new List<Lesson>();
+            foreach (Lesson l in lessons) {
+                if (l.getGroup().Equals(gr)) {
+                    tmpLessons.Add(l);
+                }
+            }
+            return tmpLessons;
+        }
+
+        public bool isCorrect() {
+            List<Lesson> tmpLessons = new List<Lesson>();
+
+            foreach (Timetable gtt in groupsTimetables) {
+                List<Lesson> lessonsInGroupTimetable = gtt.getAllLessonsWithTimetable();
+                foreach (Lesson l in getLessonsForGroup(gtt.getGroup())) {
+                    if (lessonsInGroupTimetable.Contains(l)) {
+                        lessonsInGroupTimetable.Remove(l);
+                    } else {
+                        Console.WriteLine(l.ToString() + ": does not exist in timetable");
+                        return false;
+                    }
+                }
+            }
+            
+            return true;
+        }
+
+        public void cross(SchoolTimetable s1, SchoolTimetable s2) {
+
+        }
+
+        public void mutate() {
+
         }
     }
 }
