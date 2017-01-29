@@ -99,6 +99,7 @@ namespace STG.Controllers.Engine
         }
 
         public void addLesson(Lesson lesson, int day, int slot) {
+            Console.WriteLine("add : " + lesson.ToString());
             days[day].getSlot(slot).addLesson(lesson);
         }
 
@@ -158,18 +159,59 @@ namespace STG.Controllers.Engine
             return tmp.Replace("\n",Environment.NewLine); ;
         }
 
-        public List<TimeSlot> getFreeSlots(int size = 1) {
-            List<TimeSlot> freeSlots = new List<TimeSlot>();
+        //public List<TimeSlot> getFreeSlots(int size = 1) {
+        //    List<TimeSlot> freeSlots = new List<TimeSlot>();
 
-            for (int h = 0; h < numberOfSlots - (size - 1); ++h)
+        //    for (int h = 0; h < numberOfSlots - (size - 1); ++h)
+        //    {
+        //        for (int d = 0; d < numberOfDays; ++d)
+        //        {
+
+        //            bool result = true;
+
+        //            for (int i = 0; i < size; ++i)
+        //            {
+        //                result = result && days[d].getSlot(h + i).isEmpty() && !days[d].getSlot(h + i).isLocked();
+        //            }
+
+        //            if (result)
+        //            {
+        //                freeSlots.Add(new TimeSlot(d, h));
+        //            }
+        //        }
+        //    }
+
+        //    return freeSlots;
+        //}
+
+        public List<TimeSlot> getFreeSlotsToLesson(Lesson lesson)
+        {
+            List<TimeSlot> freeSlots = new List<TimeSlot>();
+            
+            if (group != null && group.getParent() != null) {
+
+                Console.WriteLine(group.ToString() + " / " + group.getParent().ToString());
+
+                freeSlots.Add(group.getSubGroupFreeSlotToLesson(lesson));
+                if (freeSlots.Count > 0 && freeSlots[0] != null) {
+
+                    foreach (TimeSlot ts in freeSlots) {
+                        Console.WriteLine(ts.ToString());
+                    }
+                    
+                    return freeSlots;
+                }
+            }
+
+            for (int h = 0; h < numberOfSlots - (lesson.getSize() - 1); ++h)
             {
                 for (int d = 0; d < numberOfDays; ++d)
                 {
 
                     bool result = true;
 
-                    for (int i = 0; i < size; ++i)
-                    {
+                    for (int i = 0; i < lesson.getSize(); ++i)
+                    { 
                         result = result && days[d].getSlot(h + i).isEmpty() && !days[d].getSlot(h + i).isLocked();
                     }
 
@@ -284,9 +326,9 @@ namespace STG.Controllers.Engine
                     if (!days[d].getSlot(h).isEmpty())
                     {
                         //tylko jedna lekcja w slocie
-                        tmpLessons.Add(days[d].getSlot(h).getLesson(0));
+                        //tmpLessons.Add(days[d].getSlot(h).getLesson(0));
                         //wszystkie lekcje w slocie
-                        //tmpLessons.AddRange(days[d].getSlot(h).getLessons());
+                        tmpLessons.AddRange(days[d].getSlot(h).getLessons());
                     }
                 }
             }

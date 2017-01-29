@@ -95,11 +95,17 @@ namespace STG.Controllers.Engine
             return this.subject.Equals(lesson.subject) && this.group.Equals(lesson.group) && this.teacher.Equals(lesson.teacher) && this.amount.Equals(lesson.amount) && this.size.Equals(lesson.size);
         }
 
-        public void setLessonsToTimetable(int day, int hour)
+        public void addLessonToTimetable(int day, int hour)
         {
-            this.getGroup().getTimetable().addLesson(this, day,hour);
+            this.getGroup().addLesson(this, day,hour);
             this.getTeacher().getTimetable().addLesson(this, day, hour);
-            this.getRoom().getTimetable().addLesson(this, day, hour );
+            this.getRoom().getTimetable().addLesson(this, day, hour);
+        }
+
+        public void removeLessonFromTimetable(int day, int hour) {
+            this.getGroup().removeLesson(this, day, hour);
+            this.getTeacher().getTimetable().removeLesson(this, day, hour);
+            this.getRoom().getTimetable().removeLesson(this, day, hour);
         }
     }
 }

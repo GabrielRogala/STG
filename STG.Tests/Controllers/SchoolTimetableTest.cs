@@ -24,7 +24,12 @@ namespace STG.Tests.Controllers
             }
             for (int j = 0; j < 6; j++)
             {
-                groups.Add(new Group("g" + j, 25 + j));
+                List<Group> subGroups = new List<Group>();
+                int randAmount = new Random().Next(15,20);
+                subGroups.Add(new Group("g" + j + "WFm", randAmount));
+                subGroups.Add(new Group("g" + j + "WFK", (25 + j) - randAmount));
+                groups.Add(new Group("g" + j, 25 + j,subGroups));
+                
             }
             int nr = 0;
             rooms.Add(new Room("nr" + nr++, 25, "A"));
@@ -83,11 +88,11 @@ namespace STG.Tests.Controllers
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 //----------his----------
                 tI = 3; sI++; amount = 1;
-                lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
+                //lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 //----------wos----------
                 tI = 3; sI++; amount = 2;
-                lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
-                lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
+                //lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
+                //lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 //----------fiz----------
                 tI = 5; sI++; amount = 2;
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
@@ -100,10 +105,14 @@ namespace STG.Tests.Controllers
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
                 //----------w-f----------
-                tI = 4; sI++; amount = 3;
-                lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
-                lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
-                lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
+                tI = 4; sI++; amount = 2;
+                lessons.Add(new Lesson(teachers[tI], g.getSubGroup()[0], subjects[sI], amount));
+                lessons.Add(new Lesson(teachers[tI], g.getSubGroup()[0], subjects[sI], amount));
+                
+                tI = 3; amount = 2;
+                lessons.Add(new Lesson(teachers[tI], g.getSubGroup()[1], subjects[sI], amount));
+                lessons.Add(new Lesson(teachers[tI], g.getSubGroup()[1], subjects[sI], amount));
+                
                 //----------rel----------
                 tI = 5; sI++; amount = 2;
                 lessons.Add(new Lesson(teachers[tI], g, subjects[sI], amount));
@@ -124,6 +133,47 @@ namespace STG.Tests.Controllers
             stt.generateSchoolTimetable();
             stt.print();
             Console.WriteLine(stt.isCorrect());
+        }
+
+        [TestMethod]
+        public void TestSubGroup()
+        {
+            List<Lesson> lessons = new List<Lesson>();
+            List<Teacher> teachers = new List<Teacher>();
+            List<Group> groups = new List<Group>();
+            List<Subject> subjects = new List<Subject>();
+            List<Room> rooms = new List<Room>();
+            List<String> subjectTypes = new List<String>();
+
+            teachers.Add(new Teacher("t0"));
+            teachers.Add(new Teacher("t1"));
+
+            List<Group> subGroups = new List<Group>();
+            subGroups.Add(new Group("g0WFm", 10 , 1,1));
+            subGroups.Add(new Group("g0WFk", 15, 1,2));
+            groups.Add(new Group("g0", 25, subGroups));
+
+            rooms.Add(new Room("nr0", 40, "C"));
+            rooms.Add(new Room("nr1", 40, "C"));
+
+            subjectTypes.Add("SPO");
+            
+            subjects.Add(new Subject("w-f", subjectTypes[0], "C"));
+
+
+            foreach (Group g in groups)
+            {
+                lessons.Add(new Lesson(teachers[0], g.getSubGroup()[0], subjects[0], 2));
+                lessons.Add(new Lesson(teachers[0], g.getSubGroup()[0], subjects[0], 2));
+
+                lessons.Add(new Lesson(teachers[1], g.getSubGroup()[1], subjects[0], 2));
+                lessons.Add(new Lesson(teachers[1], g.getSubGroup()[1], subjects[0], 2));
+            }
+
+            SchoolTimetable stt = new SchoolTimetable(teachers, groups, rooms, lessons, subjectTypes, 3, 3);
+            stt.generateSchoolTimetable();
+            stt.print();
+            
         }
     }
 }
