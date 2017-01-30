@@ -44,12 +44,24 @@ namespace STG.Controllers.Engine
             }
         }
 
-        public List<Group> getSubGroup() {
-            return subGroup;
+        //// getters
+
+        public String getName() {
+            return name;
         }
 
-        public void setParent(Group group) {
-            this.parent = group;
+        public Timetable getTimetable()
+        {
+            return timetable;
+        }
+
+        public int getAmount()
+        {
+            return amount;
+        }
+
+        public List<Group> getSubGroup() {
+            return subGroup;
         }
 
         public Group getParent()
@@ -57,54 +69,34 @@ namespace STG.Controllers.Engine
             return parent;
         }
 
-        public TimeSlot getSubGroupFreeSlotToLesson(Lesson lesson) {
-            if (parent != null)
-            {
-                foreach (Group g in parent.getSubGroup()) {
-                    if (lesson.getGroup().getSubGroupsIndex() == g.getSubGroupsIndex() && !g.Equals(lesson.getGroup())) {
-                        if (g.getTimetable().getSlotsWithLesson(lesson.getSize()).Count > 0) {
-                            foreach(TimeSlot ts in g.getTimetable().getSlotsWithLesson(lesson.getSize()))
-                            {
-                                if (lesson.getGroup().getTimetable().getLessons(ts.day,ts.hour).Count == 0) {
-                                    return ts;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            return null;
-        }
-
-        private int getSubGroupsIndex()
+        public int getSubGroupsIndex()
         {
             return subGroupsIndex;
         }
 
-        public String getName() {
-            return name;
+        public int getSubGroupId() {
+            return subGroupId;
         }
 
-        public int getAmount() {
-            return amount;
-        }
+        //// setters
 
         public void setTimetable(Timetable timetable) {
             this.timetable = timetable;
         }
-
-        public Timetable getTimetable() {
-            return timetable;
+        
+        public void setParent(Group group) {
+            this.parent = group;
         }
 
+        //// others
+        // tr
         public void addLesson(Lesson lesson,int day , int slot) {
             if (parent != null) {
                 parent.getTimetable().addLesson(lesson, day, slot);
             } 
             this.timetable.addLesson(lesson,day,slot);
         }
-
+        // tr
         public void removeLesson(Lesson lesson, int day, int slot)
         {
             if (parent != null)
@@ -120,6 +112,28 @@ namespace STG.Controllers.Engine
             }
             this.timetable.removeLesson(lesson, day, slot);
         }
+        // tr
+        public TimeSlot getSubGroupFreeSlotToLesson(Lesson lesson) {
+            if (parent != null)
+            {
+                foreach (Group g in parent.getSubGroup()) {
+                    if (lesson.getGroup().getSubGroupsIndex() == g.getSubGroupsIndex() && !g.Equals(lesson.getGroup())) {
+                        if (g.getTimetable().getFreeSlotsToLesson(lesson).Count > 0) {
+                            foreach(TimeSlot ts in g.getTimetable().getFreeSlotsToLesson(lesson))
+                            {
+                                if (lesson.getGroup().getTimetable().getLessons(ts.day,ts.hour).Count == 0) {
+                                    return ts;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+      
+        //// overrides
 
         public override string ToString()
         {

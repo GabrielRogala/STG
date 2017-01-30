@@ -19,6 +19,8 @@ namespace STG.Controllers.Engine
             }
         }
 
+        //// getters
+
         public String getName() {
             return name;
         }

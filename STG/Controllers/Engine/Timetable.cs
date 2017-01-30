@@ -75,6 +75,8 @@ namespace STG.Controllers.Engine
             this.room.setTimetable(this);
         }
 
+        //// getters
+
         public Group getGroup() {
             return group;
         }
@@ -98,107 +100,13 @@ namespace STG.Controllers.Engine
             return days[day].getSlot(slot).getLessons();
         }
 
-        public void addLesson(Lesson lesson, int day, int slot) {
-            Console.WriteLine("add : " + lesson.ToString());
-            days[day].getSlot(slot).addLesson(lesson);
-        }
-
-        public void removeLesson(Lesson lesson, int day, int slot)
-        {
-            days[day].getSlot(slot).removeLesson(lesson);
-        }
-
-        public void removeAllLessons(int day, int slot)
-        {
-            days[day].getSlot(slot).remoweAllLessons();
-        }
-
-        public void lockSlot(int day, int slot) {
-            days[day].getSlot(slot).lockSlot();
-        }
-
-        public void unlockSlot(int day, int slot)
-        {
-            days[day].getSlot(slot).unlockSlot();
-        }
-
-        public override string ToString()
-        {
-            String tmp = "";
-            if (group != null) {
-                tmp += "\n======================" + group.getName() + "======================\n";
-            } else if (teacher != null) {
-                tmp += "\n======================" + teacher.getName() + "======================\n";
-            } else if (room != null) {
-                tmp += "\n======================" + room.getName() + "======================\n";
-            } else {
-                tmp += "\n============================================\n";
-            }
-            tmp += "\t";
-            for (int d = 0; d < numberOfDays; ++d)
-            {
-                tmp += "|________________" + days[d].getName()+ "_________________";
-            }
-            tmp += "|\n";
-            for (int h = 0; h < numberOfSlots; ++h)
-            {
-                tmp += h + "\t";
-                for (int d = 0; d < numberOfDays; ++d) {
-                    if (getLessons(d, h).Count > 0) {
-                        tmp += "|";
-                        for (int i = 0; i < getLessons(d, h).Count; i++) {
-                            tmp += " " + getLesson(d, h).ToString() + " ";
-                        }
-                    } else {
-                        tmp += "| ----------------------------------- ";
-                    }
-                }
-                tmp += "|\n";
-            }
-            tmp += "============================================\n";
-            return tmp.Replace("\n",Environment.NewLine); ;
-        }
-
-        //public List<TimeSlot> getFreeSlots(int size = 1) {
-        //    List<TimeSlot> freeSlots = new List<TimeSlot>();
-
-        //    for (int h = 0; h < numberOfSlots - (size - 1); ++h)
-        //    {
-        //        for (int d = 0; d < numberOfDays; ++d)
-        //        {
-
-        //            bool result = true;
-
-        //            for (int i = 0; i < size; ++i)
-        //            {
-        //                result = result && days[d].getSlot(h + i).isEmpty() && !days[d].getSlot(h + i).isLocked();
-        //            }
-
-        //            if (result)
-        //            {
-        //                freeSlots.Add(new TimeSlot(d, h));
-        //            }
-        //        }
-        //    }
-
-        //    return freeSlots;
-        //}
-
         public List<TimeSlot> getFreeSlotsToLesson(Lesson lesson)
         {
             List<TimeSlot> freeSlots = new List<TimeSlot>();
             
             if (group != null && group.getParent() != null) {
-
-                Console.WriteLine(group.ToString() + " / " + group.getParent().ToString());
-
                 freeSlots.Add(group.getSubGroupFreeSlotToLesson(lesson));
-                if (freeSlots.Count > 0 && freeSlots[0] != null) {
-
-                    foreach (TimeSlot ts in freeSlots) {
-                        Console.WriteLine(ts.ToString());
-                    }
-                    
+                if (freeSlots.Count > 0 && freeSlots[0] != null) {                   
                     return freeSlots;
                 }
             }
@@ -224,6 +132,69 @@ namespace STG.Controllers.Engine
 
             return freeSlots;
         }
+
+        //public List<TimeSlot> getSlotsWithLesson(int size = 1)
+        //{
+        //    List<TimeSlot> slots = new List<TimeSlot>();
+
+        //    for (int h = 0; h < numberOfSlots; ++h)
+        //    {
+        //        for (int d = 0; d < numberOfDays; ++d)
+        //        {
+        //            if (!days[d].getSlot(h).isEmpty() && !days[d].getSlot(h).isLocked() && days[d].getSlot(h).getLesson(0).getSize() == 1)
+        //            {
+        //                slots.Add(new TimeSlot(d, h));
+        //            }
+        //        }
+        //    }
+
+        //    return slots;
+        //}
+
+        public List<Lesson> getAllLessonsWithTimetable()
+        {
+            List<Lesson> tmpLessons = new List<Lesson>();
+
+            for (int h = 0; h < numberOfSlots; ++h)
+            {
+                for (int d = 0; d < numberOfDays; ++d)
+                {
+                    if (!days[d].getSlot(h).isEmpty())
+                    {
+                        tmpLessons.AddRange(days[d].getSlot(h).getLessons());
+                    }
+                }
+            }
+
+            return tmpLessons;
+        }
+
+        //// setters
+
+        public void addLesson(Lesson lesson, int day, int slot) {
+            days[day].getSlot(slot).addLesson(lesson);
+        }
+
+        public void removeLesson(Lesson lesson, int day, int slot)
+        {
+            days[day].getSlot(slot).removeLesson(lesson);
+        }
+
+        public void removeAllLessons(int day, int slot)
+        {
+            days[day].getSlot(slot).remoweAllLessons();
+        }
+
+        public void lockSlot(int day, int slot) {
+            days[day].getSlot(slot).lockSlot();
+        }
+
+        public void unlockSlot(int day, int slot)
+        {
+            days[day].getSlot(slot).unlockSlot();
+        }
+
+        //// others
 
         public int fitness()
         {
@@ -297,43 +268,70 @@ namespace STG.Controllers.Engine
             return value;
         }
 
-        public List<TimeSlot> getSlotsWithLesson(int size = 1)
-        {
-            List<TimeSlot> slots = new List<TimeSlot>();
+        //// overrides
 
+        public override string ToString()
+        {
+            String tmp = "";
+            if (group != null) {
+                tmp += "\n======================" + group.getName() + "======================\n";
+            } else if (teacher != null) {
+                tmp += "\n======================" + teacher.getName() + "======================\n";
+            } else if (room != null) {
+                tmp += "\n======================" + room.getName() + "======================\n";
+            } else {
+                tmp += "\n============================================\n";
+            }
+            tmp += "\t";
+            for (int d = 0; d < numberOfDays; ++d)
+            {
+                tmp += "|________________" + days[d].getName()+ "_________________";
+            }
+            tmp += "|\n";
             for (int h = 0; h < numberOfSlots; ++h)
             {
-                for (int d = 0; d < numberOfDays; ++d)
-                {
-                    if (!days[d].getSlot(h).isEmpty() && !days[d].getSlot(h).isLocked() && days[d].getSlot(h).getLesson(0).getSize() == 1)
-                    {
-                        slots.Add(new TimeSlot(d, h));
+                tmp += h + "\t";
+                for (int d = 0; d < numberOfDays; ++d) {
+                    if (getLessons(d, h).Count > 0) {
+                        tmp += "|";
+                        for (int i = 0; i < getLessons(d, h).Count; i++) {
+                            tmp += " " + getLessons(d, h)[i].ToString() + " ";
+                        }
+                    } else {
+                        tmp += "| ----------------------------------- ";
                     }
                 }
+                tmp += "|\n";
             }
-
-            return slots;
+            tmp += "============================================\n";
+            return tmp.Replace("\n",Environment.NewLine); ;
         }
 
-        public List<Lesson> getAllLessonsWithTimetable()
-        {
-            List<Lesson> tmpLessons = new List<Lesson>();
+        //public List<TimeSlot> getFreeSlots(int size = 1) {
+        //    List<TimeSlot> freeSlots = new List<TimeSlot>();
 
-            for (int h = 0; h < numberOfSlots; ++h)
-            {
-                for (int d = 0; d < numberOfDays; ++d)
-                {
-                    if (!days[d].getSlot(h).isEmpty())
-                    {
-                        //tylko jedna lekcja w slocie
-                        //tmpLessons.Add(days[d].getSlot(h).getLesson(0));
-                        //wszystkie lekcje w slocie
-                        tmpLessons.AddRange(days[d].getSlot(h).getLessons());
-                    }
-                }
-            }
+        //    for (int h = 0; h < numberOfSlots - (size - 1); ++h)
+        //    {
+        //        for (int d = 0; d < numberOfDays; ++d)
+        //        {
 
-            return tmpLessons;
-        }
+        //            bool result = true;
+
+        //            for (int i = 0; i < size; ++i)
+        //            {
+        //                result = result && days[d].getSlot(h + i).isEmpty() && !days[d].getSlot(h + i).isLocked();
+        //            }
+
+        //            if (result)
+        //            {
+        //                freeSlots.Add(new TimeSlot(d, h));
+        //            }
+        //        }
+        //    }
+
+        //    return freeSlots;
+        //}
+
+
     }
 }

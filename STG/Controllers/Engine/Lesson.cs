@@ -36,6 +36,23 @@ namespace STG.Controllers.Engine
             this.teacher = teacher;
         }
 
+        //// getters
+
+        public Subject getSubject()
+        {
+            return subject;
+        }
+
+        public int getAmount()
+        {
+            return amount;
+        }
+
+        public int getSize()
+        {
+            return size;
+        }
+
         public Group getGroup() {
             return group;
         }
@@ -48,33 +65,47 @@ namespace STG.Controllers.Engine
             return room;
         }
 
-        public void setRoom(Room room) {
+        public List<TimeSlot> getSlots()
+        {
+            return slots;
+        }
+
+        //// setters
+        
+        public void setRoom(Room room)
+        {
             this.room = room;
-        }
-
-        public Subject getSubject() {
-            return subject;
-        }
-
-        public int getSize() {
-            return size;
-        }
-
-        public int getAmount() {
-            return amount;
         }
 
         public void addSlot(TimeSlot slot) {
             slots.Add(slot);
         }
 
-        public List<TimeSlot> getSlots() {
-            return slots;
-        }
-
         public void removeAllSlots() {
             slots.Clear();
         }
+
+        //// others
+
+        public bool isDifferent(Lesson lesson)
+        {
+            return !this.subject.Equals(lesson.getSubject());
+        }
+
+        //public void addLessonToTimetable(int day, int hour)
+        //{
+        //    this.getGroup().addLesson(this, day,hour);
+        //    this.getTeacher().getTimetable().addLesson(this, day, hour);
+        //    this.getRoom().getTimetable().addLesson(this, day, hour);
+        //}
+
+        //public void removeLessonFromTimetable(int day, int hour) {
+        //    this.getGroup().removeLesson(this, day, hour);
+        //    this.getTeacher().getTimetable().removeLesson(this, day, hour);
+        //    this.getRoom().getTimetable().removeLesson(this, day, hour);
+        //}
+
+        //// overrides
 
         public override string ToString()
         {
@@ -85,27 +116,10 @@ namespace STG.Controllers.Engine
             return group.ToString() + "/" + teacher.ToString() + "/" + subject.ToString() + "(" + amount + "/" + size + ")" + tmp;
         }
 
-        internal bool isDifferent(Lesson lesson)
+        public override bool Equals(object obj)
         {
-            return !this.subject.Equals(lesson.getSubject());
+            return this.subject.Equals(((Lesson)obj).subject) && this.group.Equals(((Lesson)obj).group) && this.teacher.Equals(((Lesson)obj).teacher) && this.amount.Equals(((Lesson)obj).amount) && this.size.Equals(((Lesson)obj).size);
         }
 
-        public Boolean Equals(Lesson lesson)
-        {
-            return this.subject.Equals(lesson.subject) && this.group.Equals(lesson.group) && this.teacher.Equals(lesson.teacher) && this.amount.Equals(lesson.amount) && this.size.Equals(lesson.size);
-        }
-
-        public void addLessonToTimetable(int day, int hour)
-        {
-            this.getGroup().addLesson(this, day,hour);
-            this.getTeacher().getTimetable().addLesson(this, day, hour);
-            this.getRoom().getTimetable().addLesson(this, day, hour);
-        }
-
-        public void removeLessonFromTimetable(int day, int hour) {
-            this.getGroup().removeLesson(this, day, hour);
-            this.getTeacher().getTimetable().removeLesson(this, day, hour);
-            this.getRoom().getTimetable().removeLesson(this, day, hour);
-        }
     }
 }
