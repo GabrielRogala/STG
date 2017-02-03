@@ -205,6 +205,7 @@
     <Compile Include="Controllers\Engine\Room.cs" />
     <Compile Include="Controllers\Engine\SchoolTimetable.cs" />
     <Compile Include="Controllers\Engine\Slot.cs" />
+    <Compile Include="Controllers\Engine\STTConfig.cs" />
     <Compile Include="Controllers\Engine\Subject.cs" />
     <Compile Include="Controllers\Engine\SubjectType.cs" />
     <Compile Include="Controllers\Engine\Teacher.cs" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -130,7 +131,7 @@ namespace STG.Controllers.Engine
             sortLessons(tmpLessons);
 
             foreach (Lesson l in tmpLessons){
-               // Console.WriteLine(l.ToString());
+                Console.WriteLine(l.ToString());
             }
 
             while (tmpLessons.Count > 0) {
@@ -149,10 +150,10 @@ namespace STG.Controllers.Engine
         private void findAndSetBestPositionToLessons(List<Lesson> choosenLesson, List<Lesson> allLesson)
         {
             Console.WriteLine("=================================");
-            foreach (Lesson l in choosenLesson)
-            {
-                Console.WriteLine(l.ToString());
-            }
+            //foreach (Lesson l in choosenLesson)
+            //{
+            //    Console.WriteLine(l.ToString());
+            //}
 
             List<FreeSlotsToLesson> freeSlotsToLesson = new List<FreeSlotsToLesson>();
             Timetable currentTimeTable = new Timetable();
@@ -240,8 +241,6 @@ namespace STG.Controllers.Engine
                             fstl.lesson.getGroup().addLesson(fstl.lesson, bestSlot.day, bestSlot.hour + i);
                             fstl.lesson.getTeacher().getTimetable().addLesson(fstl.lesson, bestSlot.day, bestSlot.hour + i);
                             fstl.lesson.getRoom().getTimetable().addLesson(fstl.lesson, bestSlot.day, bestSlot.hour + i);
-                            Console.WriteLine(fstl.lesson.ToString());
-                            print();
                         }
                         else
                         {
@@ -667,7 +666,24 @@ namespace STG.Controllers.Engine
 
         public int lessonComparator(Lesson l1, Lesson l2)
         {
-            return sizeLessonComparator(l1, l2);
+            return subGroupLessonComparator(l1, l2);
+        }
+
+        public int subGroupLessonComparator(Lesson l1, Lesson l2)
+        {
+            if (l1.getGroup().getParent() != null) {
+                if (l2.getGroup().getParent() != null) {
+                    return l1.getGroup().getParent().GetHashCode() - l2.getGroup().getParent().GetHashCode();
+                } else {
+                    return 1;
+                }
+                
+            } else if (l2.getGroup().getParent() != null) {
+                return -1;
+            } else {
+                return sizeLessonComparator(l1, l2);
+            }
+           
         }
 
         public int sizeLessonComparator(Lesson l1, Lesson l2)
@@ -797,5 +813,152 @@ namespace STG.Controllers.Engine
         public void mutate() {
 
         }
+
+        public void genWeb(string fileName = "output")
+        {
+
+            string mydocpath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\INZ\STG\STG\webExport";
+            string beginStr = "";
+            string endStr = "";
+            string contentStr = "";
+
+            beginStr += "<!DOCTYPE html><html><head>\n";
+            beginStr += "<link href = \""+ mydocpath + "/Content/bootstrap.css\" rel = \"stylesheet\" />\n";
+            beginStr += "<link href = \"" + mydocpath + "/Content/site.css\" rel = \"stylesheet\" />\n";
+            beginStr += "<script src = \"" + mydocpath + "/Scripts/modernizr-2.6.2.js\"></script>\n";
+            beginStr += "</head><body>\n";
+            beginStr += "<div class=\"container body-content\">\n";
+        
+            endStr += "</div>\n<script src = \"" + mydocpath + "/Scripts/jquery-1.10.2.js\"></script>\n";
+            endStr += "<script src= \"" + mydocpath + "/Scripts/bootstrap.js\"></script>\n";
+            endStr += "<script src= \"" + mydocpath + "/Scripts/respond.js\"></script>\n";
+            endStr += "</body></html>\n";
+
+            
+            foreach (Timetable tt in this.teachersTimetables) {
+                contentStr += "<div class=\"row\"> \n <div class=\"panel panel-default\"><div class=\"panel-body\"> <table class=\"table\">\n";
+                ///////////////////////////////////////////////
+                contentStr += "<h3>" + tt.getTeacher().getName() + "</h3>\n";
+                //--------------------------------------------
+                contentStr += "<tr class=\"info\">\n";
+                contentStr += "<td>Hour:</td>\n";
+                foreach (Day d in tt.getDays()) {
+                    contentStr += "<td>" +d.getName() + "</td>\n";
+                }
+                contentStr += "</tr>\n";
+                //--------------------------------------------
+                contentStr += "<tr class=\"info\">\n";
+                for (int h=0 ; h < numberOfSlots; h++ ) {
+                    contentStr += "<td>" + h + "</td>\n";
+                    for (int d = 0; d < numberOfDays; d++)
+                    {
+                        contentStr += "<td>";
+                        foreach (Lesson l in tt.getLessons(d,h)) {
+                            contentStr += "<ul>";
+                            contentStr += "<li>" + l.getSubject().getName() + "</li> \n";
+                            contentStr += "<li>" + l.getGroup().getName() + "</li> \n";
+                            contentStr += "<li>" + l.getTeacher().getName() + "</li> \n";
+                            contentStr += "<li>" + l.getRoom().getName() + "</li> \n";
+                            contentStr += "<hr>\n";
+                            contentStr += "</ul>";
+                        }
+                        contentStr += "</td>\n";
+                    }
+                    contentStr += "</tr>\n";
+                }
+                
+                //=============================================
+
+                ///////////////////////////////////////////////
+                contentStr += "</table> \n </div></div></div>";
+            }
+
+            foreach (Timetable tt in this.groupsTimetables)
+            {
+                contentStr += "<div class=\"row\"> \n <div class=\"panel panel-default\"><div class=\"panel-body\"> <table class=\"table\">\n";
+                ///////////////////////////////////////////////
+                contentStr += "<h3>" + tt.getGroup().getName() + "</h3>\n";
+                //--------------------------------------------
+                contentStr += "<tr class=\"info\">\n";
+                contentStr += "<td>Hour:</td>\n";
+                foreach (Day d in tt.getDays())
+                {
+                    contentStr += "<td>" + d.getName() + "</td>\n";
+                }
+                contentStr += "</tr>\n";
+                //--------------------------------------------
+                contentStr += "<tr class=\"info\">\n";
+                for (int h = 0; h < numberOfSlots; h++)
+                {
+                    contentStr += "<td>" + h + "</td>\n";
+                    for (int d = 0; d < numberOfDays; d++)
+                    {
+                        contentStr += "<td>";
+                        foreach (Lesson l in tt.getLessons(d, h))
+                        {
+                            contentStr += "<li>" + l.getSubject().getName() + "</li> \n";
+                            contentStr += "<li>" + l.getGroup().getName() + "</li> \n";
+                            contentStr += "<li>" + l.getTeacher().getName() + "</li> \n";
+                            contentStr += "<li>" + l.getRoom().getName() + "</li> \n";
+                            contentStr += "<hr>\n";
+                        }
+                        contentStr += "</td>\n";
+                    }
+                    contentStr += "</tr>\n";
+                }
+                //=============================================
+
+                ///////////////////////////////////////////////
+                contentStr += "</table> \n </div></div></div>";
+            }
+
+            foreach (Timetable tt in this.roomsTimetables)
+            {
+                contentStr += "<div class=\"row\"> \n <div class=\"panel panel-default\"><div class=\"panel-body\"> <table class=\"table\">\n";
+                ///////////////////////////////////////////////
+                contentStr += "<h3>" + tt.getRoom().getName() + "</h3>\n";
+                //--------------------------------------------
+                contentStr += "<tr class=\"info\">\n";
+                contentStr += "<td>Hour:</td>\n";
+                foreach (Day d in tt.getDays())
+                {
+                    contentStr += "<td>" + d.getName() + "</td>\n";
+                }
+                contentStr += "</tr>\n";
+                //--------------------------------------------
+                contentStr += "<tr class=\"info\">\n";
+                for (int h = 0; h < numberOfSlots; h++)
+                {
+                    contentStr += "<td>" + h + "</td>\n";
+                    for (int d = 0; d < numberOfDays; d++)
+                    {
+                        contentStr += "<td>";
+                        foreach (Lesson l in tt.getLessons(d, h))
+                        {
+                            contentStr += "<li>" + l.getSubject().getName() + "</li> \n";
+                            contentStr += "<li>" + l.getGroup().getName() + "</li> \n";
+                            contentStr += "<li>" + l.getTeacher().getName() + "</li> \n";
+                            contentStr += "<li>" + l.getRoom().getName() + "</li> \n";
+                            contentStr += "<hr>\n";
+                        }
+                        contentStr += "</td>\n";
+                    }
+                    contentStr += "</tr>\n";
+                }
+               
+                //=============================================
+
+                ///////////////////////////////////////////////
+                contentStr += "</table> \n </div></div></div>";
+            }
+
+            using (StreamWriter outputFile = new StreamWriter(mydocpath + @"\" + fileName+ ".html"))
+            {
+                outputFile.WriteLine(beginStr + contentStr + endStr);
+            }
+
+
+        }
+
     }
 }

@@ -89,6 +89,10 @@ namespace STG.Controllers.Engine
             return room;
         }
 
+        public List<Day> getDays() {
+            return days;
+        }
+
         public Lesson getLesson(int day, int slot)
         {
             return days[day].getSlot(slot).getLesson(0);
@@ -99,7 +103,6 @@ namespace STG.Controllers.Engine
         }
 
         public void addLesson(Lesson lesson, int day, int slot) {
-            Console.WriteLine("add : " + lesson.ToString());
             days[day].getSlot(slot).addLesson(lesson);
         }
 
@@ -147,7 +150,7 @@ namespace STG.Controllers.Engine
                     if (getLessons(d, h).Count > 0) {
                         tmp += "|";
                         for (int i = 0; i < getLessons(d, h).Count; i++) {
-                            tmp += " " + getLesson(d, h).ToString() + " ";
+                            tmp += " " + getLesson(i, d, h).ToString() + " ";
                         }
                     } else {
                         tmp += "| ----------------------------------- ";
@@ -157,6 +160,11 @@ namespace STG.Controllers.Engine
             }
             tmp += "============================================\n";
             return tmp.Replace("\n",Environment.NewLine); ;
+        }
+
+        private Lesson getLesson(int i, int day, int slot)
+        {
+            return days[day].getSlot(slot).getLesson(i);
         }
 
         //public List<TimeSlot> getFreeSlots(int size = 1) {

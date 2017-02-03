@@ -39,6 +39,7 @@ namespace STG.Tests.Controllers
             rooms.Add(new Room("nr" + nr++, 40, "B"));
             rooms.Add(new Room("nr" + nr++, 40, "B"));
             rooms.Add(new Room("nr" + nr++, 40, "C"));
+            rooms.Add(new Room("nr" + nr++, 40, "C"));
 
             subjectTypes.Add("HUM");
             subjectTypes.Add("SCI");
@@ -133,6 +134,7 @@ namespace STG.Tests.Controllers
             stt.generateSchoolTimetable();
             stt.print();
             Console.WriteLine(stt.isCorrect());
+            stt.genWeb("test1");
         }
 
         [TestMethod]
@@ -173,6 +175,8 @@ namespace STG.Tests.Controllers
             SchoolTimetable stt = new SchoolTimetable(teachers, groups, rooms, lessons, subjectTypes, 3, 3);
             stt.generateSchoolTimetable();
             stt.print();
+
+            stt.genWeb();
             
         }
     }
