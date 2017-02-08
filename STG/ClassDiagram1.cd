@@ -1,0 +1,440 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="STG.Controllers.Engine.Day">
+    <Position X="12.75" Y="6.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAQAAAAAAEAAAAEAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Controllers\Engine\Day.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="slots" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="STG.Controllers.Engine.FreeSlotsInRoomToLesson">
+    <Position X="3.75" Y="4.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="room" Type="STG.Controllers.Engine.Room" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.75" Y="5" />
+        <Point X="3.169" Y="5" />
+        <Point X="3.169" Y="12.312" />
+        <Point X="5.698" Y="12.312" Type="JumpStart" />
+        <Point X="5.865" Y="12.312" Type="JumpEnd" />
+        <Point X="9.75" Y="12.312" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAUAIAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\Engine\FreeSlotsInRoomToLesson.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="room" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="slots" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="STG.Controllers.Engine.FreeSlotsToLesson">
+    <Position X="3.75" Y="6.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="previousSlot" Type="STG.Controllers.Engine.TimeSlot">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.075" Y="0.13" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="roomSlots" Type="STG.Controllers.Engine.FreeSlotsInRoomToLesson" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3.75" Y="6.945" />
+        <Point X="3.406" Y="6.945" />
+        <Point X="3.406" Y="5.5" />
+        <Point X="3.75" Y="5.5" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.033" Y="0.064" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="slots" Type="STG.Controllers.Engine.TimeSlot">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.122" Y="0.141" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAgAQAAAAAAAAAAcAIQAAAEAAAAAAEAAAAAAABAAAAA=</HashCode>
+      <FileName>Controllers\Engine\FreeSlotsToLesson.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="previousSlot" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="roomSlots" />
+      <Field Name="slots" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="STG.Controllers.Engine.Group">
+    <Position X="9.5" Y="3.5" Width="2" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="parent" Type="STG.Controllers.Engine.Group" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="11.312" Y="3.5" />
+        <Point X="11.312" Y="3.236" />
+        <Point X="11.721" Y="3.236" />
+        <Point X="11.721" Y="3.625" />
+        <Point X="11.5" Y="3.625" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.347" Y="0.426" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="subGroup" Type="STG.Controllers.Engine.Group" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="11" Y="3.5" />
+        <Point X="11" Y="2.892" />
+        <Point X="11.958" Y="2.892" />
+        <Point X="11.958" Y="3.875" />
+        <Point X="11.5" Y="3.875" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.818" Y="1.018" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="timetable" Type="STG.Controllers.Engine.Timetable" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="11.5" Y="4.813" />
+        <Point X="15.405" Y="4.813" />
+        <Point X="15.405" Y="2.938" />
+        <Point X="14.75" Y="2.938" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>RAAAQAAAAAAAAABcgAAIAEAEEAQEgIQAAAAEAABAAAQ=</HashCode>
+      <FileName>Controllers\Engine\Group.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="parent" />
+      <Field Name="timetable" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="subGroup" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="STG.Controllers.Engine.Lesson">
+    <Position X="9.75" Y="8" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="subject" Type="STG.Controllers.Engine.Subject" ManuallyRouted="true" FixedFromPoint="true">
+      <Path>
+        <Point X="11.25" Y="9.062" />
+        <Point X="11.625" Y="9.062" />
+        <Point X="11.625" Y="9.062" />
+        <Point X="13.25" Y="9.062" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="teacher" Type="STG.Controllers.Engine.Teacher" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="11.25" Y="9.375" />
+        <Point X="12.146" Y="9.375" />
+        <Point X="12.146" Y="10.25" />
+        <Point X="11.25" Y="10.25" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.048" Y="0.098" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="group" Type="STG.Controllers.Engine.Group" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="9.75" Y="8.125" />
+        <Point X="9.03" Y="8.125" />
+        <Point X="9.03" Y="5.125" />
+        <Point X="9.5" Y="5.125" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="slots" Type="STG.Controllers.Engine.TimeSlot" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="9.75" Y="8.5" />
+        <Point X="8" Y="8.5" />
+        <Point X="8" Y="8.055" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.06" Y="0.098" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="room" Type="STG.Controllers.Engine.Room" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="9.75" Y="9.312" />
+        <Point X="8.685" Y="9.312" />
+        <Point X="8.685" Y="11.812" />
+        <Point X="9.75" Y="11.812" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>QAAAAAACEIAAAQAcgIAAAAGUAJAAgAAAAAAAFQABAIA=</HashCode>
+      <FileName>Controllers\Engine\Lesson.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="subject" />
+      <Field Name="teacher" />
+      <Field Name="group" />
+      <Field Name="room" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="slots" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="STG.Controllers.Engine.Population" Collapsed="true">
+    <Position X="1" Y="6.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>QAAAAIAAAAAAAAAgAJAAAABAAABAABAAAAAAAAAAIAI=</HashCode>
+      <FileName>Controllers\Engine\Population.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="STG.Controllers.Engine.Room">
+    <Position X="9.75" Y="11.25" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="timetable" Type="STG.Controllers.Engine.Timetable" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="11.5" Y="12.812" />
+        <Point X="16.57" Y="12.812" />
+        <Point X="16.57" Y="1.938" />
+        <Point X="14.75" Y="1.938" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.211" Y="0.066" Height="0.182" Width="0.994" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAMAAAAAEAAAAQEgAAAAAAEAAAAAgQ=</HashCode>
+      <FileName>Controllers\Engine\Room.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="timetable" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="STG.Controllers.Engine.SchoolTimetable">
+    <Position X="5.5" Y="9.75" Width="2.25" />
+    <Members>
+      <Field Name="BOTTOM_BORDER_OF_BEST_SLOTS" Hidden="true" />
+      <Field Name="NUMBER_OF_LESSONS_TO_POSITIONING" Hidden="true" />
+      <Field Name="rand" Hidden="true" />
+      <Field Name="TOP_BORDER_OF_BEST_SLOTS" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="groupsTimetables" Type="STG.Controllers.Engine.Timetable" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="5.875" Y="9.75" />
+        <Point X="5.875" Y="2.188" />
+        <Point X="12.75" Y="2.188" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="roomsTimetables" Type="STG.Controllers.Engine.Timetable" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="5.688" Y="9.75" />
+        <Point X="5.688" Y="1.938" />
+        <Point X="12.75" Y="1.938" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="teachersTimetables" Type="STG.Controllers.Engine.Timetable" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.062" Y="9.75" />
+        <Point X="6.062" Y="2.438" />
+        <Point X="12.75" Y="2.438" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="teachers" Type="STG.Controllers.Engine.Teacher" FixedFromPoint="true">
+      <Path>
+        <Point X="7.75" Y="10.5" />
+        <Point X="8.602" Y="10.5" Type="JumpStart" />
+        <Point X="8.768" Y="10.5" Type="JumpEnd" />
+        <Point X="9.75" Y="10.5" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="0.002" Y="0.098" Height="0.182" Width="1.663" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="rooms" Type="STG.Controllers.Engine.Room" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="5.781" Y="11.497" />
+        <Point X="5.781" Y="12.812" />
+        <Point X="9.75" Y="12.812" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="lessons" Type="STG.Controllers.Engine.Lesson" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.875" Y="9.75" />
+        <Point X="6.875" Y="8.875" />
+        <Point X="9.75" Y="8.875" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.062" Y="0.072" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="groups" Type="STG.Controllers.Engine.Group" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.25" Y="9.75" />
+        <Point X="6.25" Y="4.281" />
+        <Point X="9.5" Y="4.281" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>aUwgA7ACIiIkAMAwAEIAACAAAAEIApEAAAAhFgAAACI=</HashCode>
+      <FileName>Controllers\Engine\SchoolTimetable.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="groupsTimetables" />
+      <Field Name="roomsTimetables" />
+      <Field Name="teachersTimetables" />
+      <Field Name="teachers" />
+      <Field Name="rooms" />
+      <Field Name="lessons" />
+      <Field Name="groups" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="STG.Controllers.Engine.Slot">
+    <Position X="9.75" Y="6" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="lessons" Type="STG.Controllers.Engine.Lesson" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="11.25" Y="7.188" />
+        <Point X="12.165" Y="7.188" />
+        <Point X="12.165" Y="8.375" />
+        <Point X="11.25" Y="8.375" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AQQAAAAABAAAIAAAAAAIAAAAEAAAABQAAAAAAAAAQgg=</HashCode>
+      <FileName>Controllers\Engine\Slot.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="lessons" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="STG.Controllers.Engine.Subject">
+    <Position X="13.25" Y="8.5" Width="2" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAEAAAAEAAAAAAEABAAAAAEAAAAAgA=</HashCode>
+      <FileName>Controllers\Engine\Subject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="STG.Controllers.Engine.SubjectType">
+    <Position X="3.25" Y="2.75" Width="2" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAACAAQABAAAQAAAAQAAIAAAA=</HashCode>
+      <FileName>Controllers\Engine\SubjectType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="STG.Controllers.Engine.Teacher">
+    <Position X="9.75" Y="9.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="timetable" Type="STG.Controllers.Engine.Timetable" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="11.25" Y="10.938" />
+        <Point X="16.089" Y="10.938" />
+        <Point X="16.089" Y="2.375" />
+        <Point X="14.75" Y="2.375" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.17" Y="0.041" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEgAAAAEAAAAQEAAAAAAAEAAAAAAQ=</HashCode>
+      <FileName>Controllers\Engine\Teacher.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="timetable" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="STG.Controllers.Engine.TimeSlot">
+    <Position X="7.25" Y="6.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAEgAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Controllers\Engine\TimeSlot.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="STG.Controllers.Engine.Timetable">
+    <Position X="12.75" Y="1.75" Width="2" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <AssociationLine Name="days" Type="STG.Controllers.Engine.Day" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="14.75" Y="2.688" />
+        <Point X="15.662" Y="2.688" />
+        <Point X="15.662" Y="6.625" />
+        <Point X="14.25" Y="6.625" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="group" Type="STG.Controllers.Engine.Group" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="14.75" Y="3.125" />
+        <Point X="15.209" Y="3.125" />
+        <Point X="15.209" Y="4.5" />
+        <Point X="11.5" Y="4.5" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.026" Y="0.084" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="teacher" Type="STG.Controllers.Engine.Teacher" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="14.75" Y="2.563" />
+        <Point X="15.895" Y="2.563" />
+        <Point X="15.895" Y="10.688" />
+        <Point X="11.25" Y="10.688" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.218" Y="0.069" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="room" Type="STG.Controllers.Engine.Room" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="14.75" Y="2.125" />
+        <Point X="16.316" Y="2.125" />
+        <Point X="16.316" Y="12.562" />
+        <Point X="11.5" Y="12.562" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>YQAAACAAJAEAAQAEQCAIBAAQEAAAAAQgAAAAB0ABAgA=</HashCode>
+      <FileName>Controllers\Engine\Timetable.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="group" />
+      <Field Name="teacher" />
+      <Field Name="room" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="days" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -10,13 +10,13 @@ namespace STG.Controllers.Engine
         public List<TimeSlot> slots;
         public int size;
         public Lesson lesson;
-        public TimeSlot pravSlot;
+        public TimeSlot previousSlot;
         public List<FreeSlotsInRoomToLesson> roomSlots;
 
         public FreeSlotsToLesson(List<TimeSlot> slots, Lesson lesson)
         {
             this.slots = slots;
-            this.pravSlot = null;
+            this.previousSlot = null;
             this.size = slots.Count;
             this.lesson = lesson;
             roomSlots = new List<FreeSlotsInRoomToLesson>();
@@ -30,7 +30,7 @@ namespace STG.Controllers.Engine
 
         public FreeSlotsToLesson(List<TimeSlot> slots, Lesson lesson, List<FreeSlotsInRoomToLesson> roomSlots, TimeSlot prevSlot) : this(slots, lesson, roomSlots)
         {
-            this.pravSlot = pravSlot;
+            this.previousSlot = previousSlot;
         }
 
         public override string ToString()
