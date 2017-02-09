@@ -176,7 +176,7 @@ namespace STG.Tests.Controllers
             stt.generateSchoolTimetable();
             stt.print();
 
-            stt.genWeb();
+            stt.genWeb("subGroupTEst");
             
         }
     }

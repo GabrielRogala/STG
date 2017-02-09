@@ -817,7 +817,7 @@ namespace STG.Controllers.Engine
         public void genWeb(string fileName = "output")
         {
 
-            string mydocpath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\INZ\STG\STG\webExport";
+            string mydocpath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\INZ\Project\STG\webExport";
             string beginStr = "";
             string endStr = "";
             string contentStr = "";
@@ -853,13 +853,18 @@ namespace STG.Controllers.Engine
                     for (int d = 0; d < numberOfDays; d++)
                     {
                         contentStr += "<td>";
+                        int counter = 0;
                         foreach (Lesson l in tt.getLessons(d,h)) {
+                            if (counter > 0)
+                            {
+                                contentStr += "<hr>\n";
+                            }
+                            counter++;
                             contentStr += "<ul>";
                             contentStr += "<li>" + l.getSubject().getName() + "</li> \n";
                             contentStr += "<li>" + l.getGroup().getName() + "</li> \n";
-                            contentStr += "<li>" + l.getTeacher().getName() + "</li> \n";
+                            //contentStr += "<li>" + l.getTeacher().getName() + "</li> \n";
                             contentStr += "<li>" + l.getRoom().getName() + "</li> \n";
-                            contentStr += "<hr>\n";
                             contentStr += "</ul>";
                         }
                         contentStr += "</td>\n";
@@ -894,13 +899,20 @@ namespace STG.Controllers.Engine
                     for (int d = 0; d < numberOfDays; d++)
                     {
                         contentStr += "<td>";
+                        int counter = 0;
                         foreach (Lesson l in tt.getLessons(d, h))
                         {
+                            if (counter > 0)
+                            {
+                                contentStr += "<hr>\n";
+                            }
+                            counter++;
+                            contentStr += "<ul>";
                             contentStr += "<li>" + l.getSubject().getName() + "</li> \n";
-                            contentStr += "<li>" + l.getGroup().getName() + "</li> \n";
+                            //contentStr += "<li>" + l.getGroup().getName() + "</li> \n";
                             contentStr += "<li>" + l.getTeacher().getName() + "</li> \n";
                             contentStr += "<li>" + l.getRoom().getName() + "</li> \n";
-                            contentStr += "<hr>\n";
+                            contentStr += "</ul>";
                         }
                         contentStr += "</td>\n";
                     }
@@ -933,13 +945,20 @@ namespace STG.Controllers.Engine
                     for (int d = 0; d < numberOfDays; d++)
                     {
                         contentStr += "<td>";
+                        int counter = 0;
                         foreach (Lesson l in tt.getLessons(d, h))
                         {
+                            if (counter > 0)
+                            {
+                                contentStr += "<hr>\n";
+                            }
+                            counter++;
+                            contentStr += "<ul>";
                             contentStr += "<li>" + l.getSubject().getName() + "</li> \n";
                             contentStr += "<li>" + l.getGroup().getName() + "</li> \n";
                             contentStr += "<li>" + l.getTeacher().getName() + "</li> \n";
-                            contentStr += "<li>" + l.getRoom().getName() + "</li> \n";
-                            contentStr += "<hr>\n";
+                            //contentStr += "<li>" + l.getRoom().getName() + "</li> \n";
+                            contentStr += "</ul>";
                         }
                         contentStr += "</td>\n";
                     }
